@@ -23,8 +23,10 @@ class CoadminService {
       }
 
       // auto pinger every minute
-      if (options.hasOwnProperty('ping') && options['ping']===true)
-        setInterval(()=>{ this.report_every(1,'ping',false,false)},1000)
+      if (options.hasOwnProperty('ping') && options['ping']===true) {
+          this.report_every(1,'ping',false,false)
+          setInterval(()=>{ this.report_every(1,'ping',false,false)},1000)
+      }
     }
     
     report_every(minute,operation,params,output=false) {
