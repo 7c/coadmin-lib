@@ -8,20 +8,23 @@ const fs = require('fs')
 const CRC32 = require('crc-32')
 
 let defaultOptions = {
-    folder:'/var/coadmin'
+    folder:'/var/coadmin',
+    ping:true
 }
 
 class CoadminService {
     constructor(serviceName,options=defaultOptions) {
       this.serviceName = serviceName
       this.options=options
+      this.reported = {}
       this.meta = {
         dir:__dirname,
         filename:process.mainModule.filename,
       }
-      this.reported = {
 
-      }
+      // auto pinger every minute
+      if (options.hasOwnProperty('ping') && options['ping']===true)
+        setInterval(()=>{ this.report_every(1,'ping',false,false)},1000)
     }
     
     report_every(minute,operation,params,output=false) {
