@@ -37,14 +37,18 @@ class CoadminService {
             this.reported[operation]=Date.now()
         }        
     }
+    report_error(operation,params,output=false) {
+        this.report(operation,params,output,true)
+    }
 
-    report(operation,params,output=false) {
+    report(operation,params,output=false,error=false) {
         let file_content = {
             v:1,
             meta:this.meta,
             service:this.serviceName,
             operation:operation,
             params,
+            error,
             t:Date.now()
         }
         let file_name = Math.abs(CRC32.str(`${this.serviceName}_${operation}`))+'.coadmin_service'
