@@ -19,7 +19,7 @@ class CoadminService {
       this.reported = {}
       this.meta = {
         dir:__dirname,
-        filename:process.mainModule.filename,
+        filename:require?.main?.filename || process.argv?.[1] || 'unknown'
       }
 
       // auto pinger every minute

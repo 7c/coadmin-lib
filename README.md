@@ -10,4 +10,5 @@ while(true) {
     coadmin_service.report_every(1,'loop',false,true)
 }
 coadmin_service.report('finished')
+coadmin_service.report_error('exception')
 ```
