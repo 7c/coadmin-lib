@@ -1,6 +1,7 @@
-const CoadminService = require('./CoadminService.js')
-
+const CoadminService = require('./models/CoadminService.js')
+const ReportIssues = require('./models/ReportIssues.js')
 
 module.exports = {
-    CoadminService
+    CoadminService,
+    ReportIssues
 }
