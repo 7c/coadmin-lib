@@ -77,7 +77,7 @@ class ReportIssues {
         }
 
         reports[hash] = Date.now() + this.options.minimumInterval
-        let file_name = `${hash}.coadmin_service`
+        let file_name = `${hash}.coadmin_issue`
         let full_filename = path.join(this.options.folder, file_name)
         if (fs.existsSync(this.options.folder)) {
             try {
