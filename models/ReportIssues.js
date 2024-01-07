@@ -33,7 +33,7 @@ class ReportIssues {
             const stackLine = err.stack.split("\n")[4]; // Get the line with caller info
             const match = stackLine.match(/at (.+):(\d+):(\d+)/); // Regex to extract details
             const [_, filename, line, column] = match;
-            console.log();
+            // console.log();
             return `${filename}:${line}`
         } catch (err) {
 
