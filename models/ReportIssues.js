@@ -41,33 +41,34 @@ class ReportIssues {
         return `-`
     }
 
-    fatal(issueDescription, extra = {}) {
-        return this.#add(issueDescription, extra, 'fatal')
+    fatal(issueDescription, extra = {}, options = {}) {
+        return this.#add(issueDescription, extra, 'fatal', options)
     }
 
-    warning(issueDescription, extra = {}) {
-        return this.#add(issueDescription, extra, 'warning')
+    warning(issueDescription, extra = {}, options = {}) {
+        return this.#add(issueDescription, extra, 'warning', options)
     }
 
-    info(issueDescription, extra = {}) {
-        return this.#add(issueDescription, extra, 'info')
+    info(issueDescription, extra = {}, options = {}) {
+        return this.#add(issueDescription, extra, 'info', options)
     }
 
-    error(issueDescription, extra = {}) {
-        return this.#add(issueDescription, extra, 'error')
+    error(issueDescription, extra = {}, options = {}) {
+        return this.#add(issueDescription, extra, 'error', options)
     }
 
 
-    #add(issueDescription, extra, level = 'info') {
+    #add(issueDescription, extra, level = 'info', options = {}) {
         // we do not allow the same issue to be reported more than once per minute 
         let hash = Math.abs(CRC32.str(`${this.appName}_issue_${level}_${issueDescription}`))
         if (reports.hasOwnProperty(hash) && Date.now() < reports[hash])
             return false
 
         let file_content = {
-            v: 1,
+            v: 2,
             issue_id: hash,
             meta: this.meta,
+            options: options,
             caller: this.#stackTraceInfo(),
             app: this.appName,
             extra,
