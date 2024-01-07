@@ -34,7 +34,7 @@ class ReportIssues {
             const match = stackLine.match(/at (.+):(\d+):(\d+)/); // Regex to extract details
             const [_, filename, line, column] = match;
             console.log();
-            return `${filename}:${line}:${column}`
+            return `${filename}:${line}`
         } catch (err) {
 
         }
