@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {        
+    "target": "es2017",          
+    "experimentalDecorators": true,                   
+    "emitDecoratorMetadata": true,                    
+    "module": "commonjs",        
+    "moduleResolution" : "Node",
+    "esModuleInterop": true,                  
+    "forceConsistentCasingInFileNames": true,            
+    "strict": true,
+    "sourceMap": true,
+    "skipLibCheck": true,      
+    "paths": {
+      "@root/*": ["./*"],
+      "@models/*": ["./models/*"],
+      "@inc/*": ["./inc/ts/*"]
+    }
+  },
+  "exclude": [
+    "**/*.test.ts"
+  ]
+}

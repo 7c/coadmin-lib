@@ -7,7 +7,7 @@ const fs = require('fs')
 const CRC32 = require('crc-32')
 const os = require('os')
 
-let defaultOptions = {
+const defaultOptions = {
     folder: '/var/coadmin',
     minimumInterval: 60 * 1000
 }
@@ -17,7 +17,7 @@ const reports = {}
 class ReportIssues {
     constructor(appName, options = defaultOptions) {
         this.appName = appName.toLowerCase()
-        this.options = Object.assign(defaultOptions, options)
+        this.options = Object.assign({},defaultOptions, options)
         this.reported = {}
         this.meta = {
             // dir: __dirname,
