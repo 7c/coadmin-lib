@@ -43,9 +43,12 @@ class Mysql1Tests {
             }, timeoutSeconds * 1000);
             try {
                 mysql1pool.getConnection((err, connection) => {
-                    if (err)
-                        resolve(`${err.message}`);
+                    if (err) {
+                        connection.release(); // Release the connection back to the pool
+                        return resolve(`${err.message}`);
+                    }
                     connection.ping((err) => {
+                        connection.release(); // Release the connection back to the pool
                         if (err)
                             return resolve(`${err.message}`);
                         resolve(true);

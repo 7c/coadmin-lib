@@ -30,13 +30,19 @@ export class Mysql1Tests {
         return new Promise(async (resolve, reject) => {
             if (!mysql1pool) return resolve('mysql1pool is null')
             dbg('pinging mysql1pool')
+        
             const timeout = setTimeout(() => {
                 resolve(`Connection check timed out after ${timeoutSeconds} seconds`)
             }, timeoutSeconds * 1000)
+
             try {
                 mysql1pool.getConnection((err: mysql.MysqlError, connection: mysql.PoolConnection) => {
-                    if (err) resolve(`${err.message}`)
+                    if (err) {
+                        connection.release(); // Release the connection back to the pool
+                        return resolve(`${err.message}`)
+                    }
                     connection.ping((err: mysql.MysqlError) => {
+                        connection.release(); // Release the connection back to the pool
                         if (err) return resolve(`${err.message}`)
                         resolve(true)
                     })
