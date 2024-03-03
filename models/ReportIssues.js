@@ -95,7 +95,7 @@ class ReportIssues {
             issue_id: hash,
             meta: this.meta,
             options: options,
-            caller: st.length > 4 ? st[4] : '-',
+            caller: st.length > 0 ? st[0] : '-',
             stackTrace: Array.isArray(st) ? st : false,
             app: this.appName,
             extra,
