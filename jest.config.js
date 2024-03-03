@@ -13,9 +13,9 @@ module.exports = {
       // debug:true,
       maxWorkers: 10,
       testMatch: [
-            "**/?(*.)+(jest|test).ts"
+            "**/?(*.)+(jest|test).(ts|js)"
       ],
       moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
       modulePaths: [compilerOptions.baseUrl],
-      // setupFilesAfterEnv: ["<rootDir>/jest/jestsetup.js"],
+      setupFilesAfterEnv: ["<rootDir>/jest/jestsetup.js"],
 }

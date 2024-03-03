@@ -23,43 +23,40 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Tests = void 0;
+exports.NetworkingTests = void 0;
 const net = __importStar(require("net"));
-var Tests;
-(function (Tests) {
-    class Networking {
-        static async isTCPPortListening(port, ip = '127.0.0.1') {
-            return new Promise(async (resolve, reject) => {
-                // Validate IP address
-                if (net.isIP(ip) === 0) {
-                    return resolve('Invalid IP address');
-                }
-                const server = net.createServer();
-                let checkPort = new Promise((resolveInner, reject) => {
-                    server.on('error', (err) => {
-                        if (err.message.includes('EADDRINUSE'))
-                            resolveInner(true);
-                        // any error should raise problem
-                        resolveInner(`error: ${err.message}`);
-                    });
-                    server.on('listening', () => {
-                        resolveInner(false);
-                    });
+class NetworkingTests {
+    static async isTCPPortListening(port, ip = '127.0.0.1') {
+        return new Promise(async (resolve, reject) => {
+            // Validate IP address
+            if (net.isIP(ip) === 0) {
+                return resolve('Invalid IP address');
+            }
+            const server = net.createServer();
+            let checkPort = new Promise((resolveInner, reject) => {
+                server.on('error', (err) => {
+                    if (err.message.includes('EADDRINUSE'))
+                        resolveInner(true);
+                    // any error should raise problem
+                    resolveInner(`error: ${err.message}`);
                 });
-                server.listen(port, ip);
-                let res = await checkPort;
-                let to = setTimeout(() => {
-                    return resolve(res);
-                }, 1000);
-                server.on('close', () => {
-                    clearTimeout(to);
-                    return resolve(res);
+                server.on('listening', () => {
+                    resolveInner(false);
                 });
-                server.close();
-                return;
             });
-        }
+            server.listen(port, ip);
+            let res = await checkPort;
+            let to = setTimeout(() => {
+                return resolve(res);
+            }, 1000);
+            server.on('close', () => {
+                clearTimeout(to);
+                return resolve(res);
+            });
+            server.close();
+            return;
+        });
     }
-    Tests.Networking = Networking;
-})(Tests || (exports.Tests = Tests = {}));
+}
+exports.NetworkingTests = NetworkingTests;
 //# sourceMappingURL=NetworkingTests.js.map

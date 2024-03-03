@@ -1,42 +1,34 @@
-const { CoadminService } = require('./index.js')
-const Service1 = new (require('./models/CoadminService2.js'))("demoApp", {
-    name: 'worker1',
-    version: '1.0.0',
-    description: 'pulls data from api1 and saves it to mysql2',
-    minInterval: 10,
-    maxInterval: 60,
-})
 
+const ReportIssues = require('./models/ReportIssues.js')
 
-function wait(seconds = 1) {
-    return new Promise((resolve, reject) => {
-        setTimeout(resolve, seconds * 1000)
-    })
+const report = new ReportIssues('demo')
+
+function inner() {
+    report.warning('This is a warning issue')
+    // console.log(report.stackTrace())
+        // console.log(report.stackTraceInfo())
+    inner2()
 }
 
-function CoadminWorker(fn, ...args) {
-    fn(...args)
-}
-
-async function worker1() {
-    Service1.start()
-    while (true) {
-        console.log('worker1')
-        await wait(1)
-        Service1.ping()
-    }
-    Service1.stop()
+function inner2() {
+    report.warning('This is a warning issue')
+    // console.log(report.stackTrace())
+        // console.log(report.stackTraceInfo())
 }
 
 
 async function start() {
     try {
-        CoadminWorker(worker1)
+        
+        // report.fatal('This is a fatal issue')
+        inner()
+        // report.info('This is an info issue')
+        
 
-
-    } catch (err) {
+    } catch(err) {
         console.log(err)
     }
+    process.exit(0)
 }
 
 start()
