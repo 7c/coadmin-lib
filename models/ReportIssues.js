@@ -1,6 +1,8 @@
 /*
   is being developed, subject to change
 */
+const errorStackParser = require('error-stack-parser');
+const util = require('util');
 const debug = require('debug')('_ReportIssues')
 const path = require('path')
 const fs = require('fs')
@@ -9,7 +11,8 @@ const os = require('os')
 
 const defaultOptions = {
     folder: '/var/coadmin',
-    minimumInterval: 60 * 1000
+    minimumInterval: 60 * 1000,
+    live: true
 }
 
 const reports = {}
@@ -66,61 +69,103 @@ class ReportIssues {
 
 
 
-    fatal(issueDescription, extra = {}, options = {}) {
-        return this.#add(issueDescription, extra, 'fatal', options)
+    fatal(issue, extra = {}, options = {}) {
+        return this.#add(issue, extra, 'fatal', options)
     }
 
-    warning(issueDescription, extra = {}, options = {}) {
-        return this.#add(issueDescription, extra, 'warning', options)
+    warning(issue, extra = {}, options = {}) {
+        return this.#add(issue, extra, 'warning', options)
     }
 
-    info(issueDescription, extra = {}, options = {}) {
-        return this.#add(issueDescription, extra, 'info', options)
+    info(issue, extra = {}, options = {}) {
+        return this.#add(issue, extra, 'info', options)
     }
 
-    error(issueDescription, extra = {}, options = {}) {
-        return this.#add(issueDescription, extra, 'error', options)
+    error(issue, extra = {}, options = {}) {
+        return this.#add(issue, extra, 'error', options)
     }
 
 
-    #add(issueDescription, extra, level = 'info', options = {}) {
-        debug(`#add`, issueDescription, extra, level, options)
-        // we do not allow the same issue to be reported more than once per minute 
-        let hash = Math.abs(CRC32.str(`${this.appName}_issue_${level}_${issueDescription}`))
-        if (reports.hasOwnProperty(hash) && Date.now() < reports[hash])
-            return false
-        const st = this.stackTrace(10)
-        let file_content = {
-            v: 3,
-            issue_id: hash,
-            meta: this.meta,
-            options: options,
-            caller: st.length > 0 ? st[0] : '-',
-            stackTrace: Array.isArray(st) ? st : false,
-            app: this.appName,
-            extra,
-            description: issueDescription,
-            level,
-            t: Date.now()
-        }
-        debug(file_content)
+    #add(issue, extra, level = 'info', options = {}) {
+        try {
+            debug(`#add`, issue, extra, level, options)
+            let st = this.stackTrace(10)
+            const st0 = st
 
-        reports[hash] = Date.now() + this.options.minimumInterval
-        let file_name = `${hash}.coadmin_issue`
-        let full_filename = path.join(this.options.folder, file_name)
-        if (fs.existsSync(this.options.folder)) {
-            try {
-                fs.writeFileSync(full_filename, JSON.stringify(file_content))
-                return full_filename
-            } catch (err) {
-                return err
+            if (typeof issue === 'object' && isError(issue)) {
+                let frames = errorStackParser.parse(issue)
+
+                frames = frames.filter(frame => {
+                    return !frame.fileName.includes('node:internal/')
+                })
+
+                st = frames.map(frame => {
+                    return `${frame.fileName}:${frame.functionName}:${frame.lineNumber}`
+                })
+
+                extra = Object.assign({}, extra, {
+                    // message: issue.message,
+                    errno: issue.errno ? issue.errno : false,
+                    // stack: frames,
+                    // frames: frames
+                })
+                issue = issue.message
             }
-        } else {
-            return false
+
+            if (st0) extra.st0 = st0
+
+
+            const hash = Math.abs(CRC32.str(`${this.appName}_issue_${level}_${issue}`))
+            // we do not allow the same issue to be reported more than once per minute 
+            if (reports.hasOwnProperty(hash) && Date.now() < reports[hash])
+                return false
+
+            // console.log(st0)
+            let file_content = {
+                v: 3,
+                issue_id: hash,
+                meta: this.meta,
+                options: options,
+                caller: st0.length > 0 ? st0[0] : '-',
+                stackTrace: Array.isArray(st) ? st : false,
+                app: this.appName,
+                extra,
+                description: issue,
+                level,
+                t: Date.now()
+            }
+            debug(file_content)
+
+            reports[hash] = Date.now() + this.options.minimumInterval
+            let file_name = `${hash}.coadmin_issue`
+            let full_filename = path.join(this.options.folder, file_name)
+
+            if (this.options.live === false) {
+                // non live mode will only display the issue file
+                console.dir(file_content, { depth: null })
+                return true
+            }
+            if (this.options.live === true)
+                if (fs.existsSync(this.options.folder)) {
+                    try {
+                        fs.writeFileSync(full_filename, JSON.stringify(file_content))
+                        return full_filename
+                    } catch (err) {
+                        return err
+                    }
+                } else {
+                    return false
+                }
+        } catch (err3) {
+            console.log(err3)
         }
     }
 }
 
+
+function isError(e) {
+    return util.types.isNativeError(e);
+}
 
 
 module.exports = ReportIssues
