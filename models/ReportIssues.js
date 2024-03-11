@@ -8,6 +8,7 @@ const path = require('path')
 const fs = require('fs')
 const CRC32 = require('crc-32')
 const os = require('os')
+const pkg = require(path.join(__dirname, '..', 'package.json'))
 
 const defaultOptions = {
     folder: '/var/coadmin',
@@ -122,7 +123,7 @@ class ReportIssues {
 
             // console.log(st0)
             let file_content = {
-                v: 3,
+                v: 4,
                 issue_id: hash,
                 meta: this.meta,
                 options: options,
@@ -132,6 +133,7 @@ class ReportIssues {
                 extra,
                 description: issue,
                 level,
+                libversion: pkg?.version || 'unknown',
                 t: Date.now()
             }
             debug(file_content)
