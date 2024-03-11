@@ -115,8 +115,7 @@ class ReportIssues {
 
             if (st0) extra.st0 = st0
 
-
-            const hash = Math.abs(CRC32.str(`${this.appName}_issue_${level}_${issue}`))
+            const hash = Math.abs(CRC32.str(`${this.appName}_issue_${level}_${issue}`.toLowerCase()))
             // we do not allow the same issue to be reported more than once per minute 
             if (reports.hasOwnProperty(hash) && Date.now() < reports[hash])
                 return false
@@ -147,20 +146,12 @@ class ReportIssues {
                 console.dir(file_content, { depth: null })
                 return true
             }
-            if (this.options.live === true)
-                if (fs.existsSync(this.options.folder)) {
-                    try {
-                        fs.writeFileSync(full_filename, JSON.stringify(file_content))
-                        return full_filename
-                    } catch (err) {
-                        return err
-                    }
-                } else {
-                    return false
-                }
+            fs.writeFileSync(full_filename, JSON.stringify(file_content))
+            return true
         } catch (err3) {
             console.log(err3)
         }
+        return false
     }
 }
 

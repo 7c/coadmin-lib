@@ -2,6 +2,7 @@ declare module 'coadmin-lib' {
     export interface ReportIssuesOpts {
         folder: string;
         minimumInterval?: number;
+        live?: boolean;
     }
 
     export interface ExtraInformation {
@@ -10,9 +11,10 @@ declare module 'coadmin-lib' {
 
     export class ReportIssues {
         constructor(appName: string, options?: ReportIssuesOpts);
-        fatal(issueDescription: string, extra?: ExtraInformation, options?: object): boolean | string | Error;
-        warning(issueDescription: string, extra?: ExtraInformation, options?: object): boolean | string | Error;
-        info(issueDescription: string, extra?: ExtraInformation, options?: object): boolean | string | Error;
-        error(issueDescription: string, extra?: ExtraInformation, options?: object): boolean | string | Error;
+
+        fatal  (issue: any, extra?: ExtraInformation, options?: object): boolean | string;
+        warning(issue: any, extra?: ExtraInformation, options?: object): boolean | string;
+        info   (issue: any, extra?: ExtraInformation, options?: object): boolean | string;
+        error  (issue: any, extra?: ExtraInformation, options?: object): boolean | string;
     }
 }
