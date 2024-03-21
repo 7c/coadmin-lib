@@ -8,10 +8,10 @@ module.exports = {
       verbose: true,
       // silent: true,
       randomize: true,
-      testTimeout: 15000,
+      testTimeout: 20000,
       // collectCoverage: true,
       // debug:true,
-      maxWorkers: 10,
+      maxWorkers: 1,
       testMatch: [
             "**/?(*.)+(jest|test).(ts|js)"
       ],

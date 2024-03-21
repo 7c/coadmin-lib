@@ -38,7 +38,7 @@ export class Mysql1Tests {
             try {
                 mysql1pool.getConnection((err: mysql.MysqlError, connection: mysql.PoolConnection) => {
                     if (err) {
-                        connection.release(); // Release the connection back to the pool
+                        if (connection) connection.release(); // Release the connection back to the pool
                         return resolve(`${err.message}`)
                     }
                     connection.ping((err: mysql.MysqlError) => {
