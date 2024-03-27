@@ -44,7 +44,8 @@ class Mysql1Tests {
             try {
                 mysql1pool.getConnection((err, connection) => {
                     if (err) {
-                        connection.release(); // Release the connection back to the pool
+                        if (connection)
+                            connection.release(); // Release the connection back to the pool if exists
                         return resolve(`${err.message}`);
                     }
                     connection.ping((err) => {
