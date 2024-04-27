@@ -1,6 +1,6 @@
 {
   "name": "coadmin-lib",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "Coadmin Project Helper Libraries",
   "main": "index.js",
   "scripts": {

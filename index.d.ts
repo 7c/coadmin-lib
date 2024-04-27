@@ -14,6 +14,7 @@ declare module 'coadmin-lib' {
 
         fatal  (issue: any, extra?: ExtraInformation, options?: object): boolean | string;
         warning(issue: any, extra?: ExtraInformation, options?: object): boolean | string;
+        debug  (issue: any, extra?: ExtraInformation, options?: object): boolean | string;
         info   (issue: any, extra?: ExtraInformation, options?: object): boolean | string;
         error  (issue: any, extra?: ExtraInformation, options?: object): boolean | string;
     }

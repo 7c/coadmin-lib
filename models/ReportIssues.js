@@ -78,6 +78,10 @@ class ReportIssues {
         return this.#add(issue, extra, 'warning', options)
     }
 
+    debug(issue, extra = {}, options = {}) {
+        return this.#add(issue, extra, 'debug', options)
+    }
+
     info(issue, extra = {}, options = {}) {
         return this.#add(issue, extra, 'info', options)
     }
