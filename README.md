@@ -15,7 +15,20 @@ coadmin_service.report_error('exception')
 
 ## typescript
 ```
+import { ReportIssues } from 'coadmin-lib'
 
+// live mode
+const riLive = new ReportIssues('demoLive',{
+        live: true,
+        server: 'http://127.0.0.1:9091/api',
+        server_path: '/socket2.io',
+        output: true
+})
+riLive.warning('test warning')
+
+// passive mode
+const riPassive = new ReportIssues('demoPassive',{live: false, folder: '/var/coadmin'})
+riPassive.warning('test warning')
 ```
 
 

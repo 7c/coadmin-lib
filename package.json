@@ -1,6 +1,6 @@
 {
   "name": "coadmin-lib",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "Coadmin Project Helper Libraries",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@7c/myioframework": "github:7c/myioframework",
     "crc-32": "^1.2.0",
     "debug": "^4.3.4",
     "error-stack-parser": "^2.1.4",

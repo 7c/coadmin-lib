@@ -2,6 +2,7 @@
   is being developed, subject to change
 */
 const errorStackParser = require('error-stack-parser');
+const { wait } = require('mybase/ts')
 const util = require('util');
 const debug = require('debug')('_ReportIssues')
 const path = require('path')
@@ -9,16 +10,22 @@ const fs = require('fs')
 const CRC32 = require('crc-32')
 const os = require('os')
 const pkg = require(path.join(__dirname, '..', 'package.json'))
+const { MYIOClient } = require('@7c/myioframework');
 
 const defaultOptions = {
+    live: false,
     folder: '/var/coadmin',
+    server: 'https://127.0.0.1:3000/api', // if live mode we will be using socket.io-client to send the issue to the server in live mode
+    server_path: '/socket.io',
     minimumInterval: 60 * 1000,
-    live: true
+    output: false
 }
 
 const reports = {}
 
 class ReportIssues {
+    socket = null
+    buffer = []
     constructor(appName, options = defaultOptions) {
         this.appName = appName.toLowerCase()
         this.options = Object.assign({}, defaultOptions, options)
@@ -29,6 +36,11 @@ class ReportIssues {
             // filename: require?.main?.filename || process.argv?.[1] || 'unknown'
         }
         debug(this.meta)
+        if (this.options.live) {
+            this.socket = new MYIOClient({ url: this.options.server, name: 'coadmin-lib', output: this.options.output} ,{ path: this.options.server_path })
+            this.socket.connect()
+            this.liveWorker()
+        }
     }
 
     stackTrace(numberOfLinesToFetch = 10) {
@@ -68,6 +80,25 @@ class ReportIssues {
         }
     }
 
+    async liveWorker() {
+        if (this.options.live === false) return
+        debug(`liveWorker has been started`)
+        while (true) {
+            try {
+                if (this.socket.isConnected) {
+                    const payload = this.buffer.shift()
+                    if (payload) {
+                        debug(`submitting payload | app: ${payload.app} | level: ${payload.level} | issue_id: ${payload.issue_id} | description: ${payload.description}`)
+                        this.socket.emit('issues.submit', payload)
+                    }
+                }
+            } catch (err) {
+                console.log(`coadmin-lib:ReportIssues:liveWorker error`, err)
+                await wait(1)
+            }
+            await wait(1/10)
+        }
+    }
 
 
     fatal(issue, extra = {}, options = {}) {
@@ -91,9 +122,9 @@ class ReportIssues {
     }
 
 
-    #add(issue, extra, level = 'info', options = {}) {
+    generate(issue, extra, level = 'info', options = {}) {
         try {
-            debug(`#add`, issue, extra, level, options)
+            debug(`#generate`, issue, extra, level, options)
             let st = this.stackTrace(10)
             const st0 = st
 
@@ -123,10 +154,10 @@ class ReportIssues {
             // we do not allow the same issue to be reported more than once per minute 
             if (reports.hasOwnProperty(hash) && Date.now() < reports[hash])
                 return false
+            reports[hash] = Date.now() + this.options.minimumInterval
 
-            // console.log(st0)
             let file_content = {
-                v: 4,
+                v: 5,
                 issue_id: hash,
                 meta: this.meta,
                 options: options,
@@ -139,18 +170,29 @@ class ReportIssues {
                 libversion: pkg?.version || 'unknown',
                 t: Date.now()
             }
-            debug(file_content)
+            return file_content
+        } catch (err3) {
+            console.log(err3)
+        }
+        return false
+    }
 
-            reports[hash] = Date.now() + this.options.minimumInterval
-            let file_name = `${hash}.coadmin_issue`
-            let full_filename = path.join(this.options.folder, file_name)
+    #add(issue, extra, level = 'info', options = {}) {
+        try {
+            debug(`#add`)
+            const file_content = this.generate(issue, extra, level, options)
+            if (!file_content) return false
 
-            if (this.options.live === false) {
-                // non live mode will only display the issue file
-                console.dir(file_content, { depth: null })
-                return true
+            if (this.options.live) {
+                this.buffer.push(file_content)
+                debug(`#add:++buffer`, this.buffer.length)
+            } else {
+                let file_name = `${file_content.issue_id}.coadmin_issue`
+                let full_filename = path.join(this.options.folder, file_name)
+                debug(`#add:file:`, full_filename)
+                fs.writeFileSync(full_filename, JSON.stringify(file_content))
+                debug(`#add:success:`, full_filename)
             }
-            fs.writeFileSync(full_filename, JSON.stringify(file_content))
             return true
         } catch (err3) {
             console.log(err3)
