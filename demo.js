@@ -20,7 +20,6 @@ function inner2() {
 
 async function start() {
     try {
-        
         // report.fatal('This is a fatal issue')
         inner()
         // report.info('This is an info issue')

@@ -4,3 +4,4 @@ package-lock.json
 release.sh
 *.map
 demos/
+tsconfig.tsbuildinfo

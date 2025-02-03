@@ -102,23 +102,23 @@ class ReportIssues {
 
 
     fatal(issue, extra = {}, options = {}) {
-        return this.#add(issue, extra, 'fatal', options)
+        return this.add(issue, extra, 'fatal', options)
     }
 
     warning(issue, extra = {}, options = {}) {
-        return this.#add(issue, extra, 'warning', options)
+        return this.add(issue, extra, 'warning', options)
     }
 
     debug(issue, extra = {}, options = {}) {
-        return this.#add(issue, extra, 'debug', options)
+        return this.add(issue, extra, 'debug', options)
     }
 
     info(issue, extra = {}, options = {}) {
-        return this.#add(issue, extra, 'info', options)
+        return this.add(issue, extra, 'info', options)
     }
 
     error(issue, extra = {}, options = {}) {
-        return this.#add(issue, extra, 'error', options)
+        return this.add(issue, extra, 'error', options)
     }
 
 
@@ -177,7 +177,7 @@ class ReportIssues {
         return false
     }
 
-    #add(issue, extra, level = 'info', options = {}) {
+    add(issue, extra, level = 'info', options = {}) {
         try {
             debug(`#add`)
             const file_content = this.generate(issue, extra, level, options)
