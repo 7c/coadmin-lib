@@ -1,3 +1,4 @@
+#!/usr/bin/node
 import minimist from 'minimist';
 import { wait } from 'mybase/ts'
 const ReportIssues = require('../models/ReportIssues.js')
@@ -65,7 +66,7 @@ Commands:
 
 Example:
     cli issue submit --app myapp --description "Something went wrong" --level error
-    `);
+`);
 }
 
 async function main() {
@@ -138,8 +139,6 @@ async function main() {
                     showUsage();
                     process.exit(1);
             }
-
-            
         default:
             console.error('Error: Unknown command');
             showUsage();

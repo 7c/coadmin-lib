@@ -1,3 +1,4 @@
+#!/usr/bin/node
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -68,7 +69,7 @@ Commands:
 
 Example:
     cli issue submit --app myapp --description "Something went wrong" --level error
-    `);
+`);
 }
 async function main() {
     const args = (0, minimist_1.default)(process.argv.slice(2), {
