@@ -1,4 +1,4 @@
-import { Tests } from "./NetworkingTests";
+import { NetworkingTests } from "./NetworkingTests";
 import net from "net";
 
 describe("Networking", () => {
@@ -7,7 +7,7 @@ describe("Networking", () => {
       const port = 18080
       const server = net.createServer()
       server.listen(port,'127.0.0.1')
-      const result = await Tests.Networking.isTCPPortListening(port);
+      const result = await NetworkingTests.isTCPPortListening(port);
       server.close()
       expect(result).toBe(true);
     })
@@ -16,7 +16,7 @@ describe("Networking", () => {
     test("should return false if the port is not listening", async () => {
       const port = 18081;
 
-      const result = await Tests.Networking.isTCPPortListening(port);
+      const result = await NetworkingTests.isTCPPortListening(port);
 
       expect(result).toBe(false);
     });

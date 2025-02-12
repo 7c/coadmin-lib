@@ -13,6 +13,17 @@ coadmin_service.report('finished')
 coadmin_service.report_error('exception')
 ```
 
+## CoadminService3 Class
+```
+import { CoadminService3 } from 'coadmin-lib'
+
+const coadmin_service = new CoadminService3('ServiceName')
+
+coadmin_service.report('started')
+
+```
+
+
 ## typescript
 ```
 import { ReportIssues } from 'coadmin-lib'
@@ -45,4 +56,6 @@ ReportIssues.error('error level description',{extra:'extra info'})
 ```
 
 
-### Tests.Networking Class
+### NetworkingTests Class
+### Mysql2Tests Class
+### Mysql1Tests Class

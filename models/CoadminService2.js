@@ -24,6 +24,10 @@ class CoadminService2 {
             hostname: os.hostname(),
             // filename: require?.main?.filename || process.argv?.[1] || 'unknown'
         }
+
+        setInterval(() => {
+            console.log(`do not use CoadminService2, it is deprecated`)
+        }, 5000)
     }
 
     #stackTraceInfo() {

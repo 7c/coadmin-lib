@@ -24,6 +24,7 @@ describe('Mysql2Tests', () => {
             } as unknown as mysql2.Connection;
 
             // Act
+            
             const result = await Mysql2Tests.isAlive(mockMysql2handle);
 
             // Assert

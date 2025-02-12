@@ -13,5 +13,5 @@ global.console.log = (...messages) => customLogger(...messages);
 global.console.error = (...messages) => customLogger2(...messages, '⚫️');
 
 beforeAll(() => {
-  console.log('global beforeAll')
+  // console.log('global beforeAll')
 })

@@ -6,6 +6,7 @@ describe("ReportIssues", () => {
   test("stackTrace", async () => {
     const RI = new ReportIssues("test")
     const stack = RI.stackTrace()
-    console.log(stack)
+    // console.log(stack)
+    expect(stack).toBeDefined()
   })
 })

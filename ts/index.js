@@ -17,4 +17,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("../models/NetworkingTests"), exports);
 __exportStar(require("../models/Mysql2Tests"), exports);
 __exportStar(require("../models/Mysql1Tests"), exports);
+__exportStar(require("../models/CoadminService3"), exports);
 //# sourceMappingURL=index.js.map
