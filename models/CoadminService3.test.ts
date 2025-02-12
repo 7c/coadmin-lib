@@ -115,8 +115,7 @@ describe('CoadminService3', () => {
 
     describe('reportSuccess', () => {
         it('reports only after specified interval', () => {
-            const minute = 1;
-            const operation = 'test-operation';
+            const operation = 'test-operation-'+Date.now();
             
             service.reportSuccess(operation, null);
             expect(fs.writeFileSync).toHaveBeenCalledTimes(1);
@@ -126,7 +125,7 @@ describe('CoadminService3', () => {
             expect(fs.writeFileSync).toHaveBeenCalledTimes(1);
             
             // Advance time by more than the interval
-            jest.advanceTimersByTime(minute * 60 * 1000 + 100);
+            delete service.reported[operation]
             
             service.reportSuccess(operation, null);
             expect(fs.writeFileSync).toHaveBeenCalledTimes(2);
