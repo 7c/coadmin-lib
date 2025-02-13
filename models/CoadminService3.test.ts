@@ -63,7 +63,6 @@ describe('CoadminService3', () => {
             service.report(operation+'1', undefined);
             service.report(operation+'2', null);
             service.report(operation+'3', false);
-            console.log(fs.writeFileSync);
             
             const calls = (fs.writeFileSync as jest.Mock).mock.calls;
             const contents = calls.map(call => JSON.parse(call[1] as string));
