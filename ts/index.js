@@ -18,4 +18,6 @@ __exportStar(require("../models/NetworkingTests"), exports);
 __exportStar(require("../models/Mysql2Tests"), exports);
 __exportStar(require("../models/Mysql1Tests"), exports);
 __exportStar(require("../models/CoadminService3"), exports);
+__exportStar(require("../models/PuppetClient"), exports);
+__exportStar(require("../models/PuppetSummary"), exports);
 //# sourceMappingURL=index.js.map
