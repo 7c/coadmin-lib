@@ -1,8 +1,8 @@
 {
   "name": "coadmin-lib",
-  "version": "1.1.29",
+  "version": "1.1.30",
   "description": "Coadmin Project Helper Libraries",
-  "main": "index.js",
+  "main": "ts/index.js",
   "types": "ts/index.d.ts",
   "bin": "cli/index.js",
   "scripts": {
