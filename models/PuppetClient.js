@@ -8,9 +8,7 @@ const debug_1 = __importDefault(require("debug"));
 const child_process_1 = require("child_process");
 const fs_1 = __importDefault(require("fs"));
 const log = (0, debug_1.default)('_PuppetClient');
-// const isJestRunning = typeof jest !== 'undefined';
-// log.enabled = isJestRunning;
-//jsdoc
+const isJestRunning = log.enabled || typeof jest !== 'undefined';
 /**
  * This class is used to determine the puppet binary and the puppet summary file.
  * It is used by the PuppetSummary class to get the puppet summary file and the puppet binary.

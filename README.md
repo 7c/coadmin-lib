@@ -59,3 +59,5 @@ ReportIssues.error('error level description',{extra:'extra info'})
 ### NetworkingTests Class
 ### Mysql2Tests Class
 ### Mysql1Tests Class
+### PuppetClient Class
+### PuppetSummary Class

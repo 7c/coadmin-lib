@@ -3,11 +3,9 @@ import { execSync } from "child_process";
 import fs from 'fs';
 
 const log = debug('_PuppetClient');
-// const isJestRunning = typeof jest !== 'undefined';
-// log.enabled = isJestRunning;
+const isJestRunning = log.enabled ||  typeof jest !== 'undefined';
 
 
-//jsdoc
 /**
  * This class is used to determine the puppet binary and the puppet summary file.
  * It is used by the PuppetSummary class to get the puppet summary file and the puppet binary.
