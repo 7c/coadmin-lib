@@ -3,6 +3,9 @@ node_modules/
 package-lock.json
 release.sh
 *.map
-demos/
+src/demos/
 tsconfig.tsbuildinfo
 *.tgz
+jest/jestsetup.js
+demos/
+dist/

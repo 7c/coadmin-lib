@@ -1,10 +1,10 @@
 {
   "name": "coadmin-lib",
-  "version": "1.1.31",
+  "version": "1.1.32",
   "description": "Coadmin Project Helper Libraries",
-  "main": "ts/index.ts",
-  "types": "ts/index.d.ts",
-  "bin": "cli/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": "dist/cli/index.js",
   "scripts": {
     "test": "jest --forceExit"
   },
