@@ -76,7 +76,7 @@ debug.enabled = debug.enabled || typeof jest !== 'undefined'
 // Main class
 // -----------------------------------------------------------------------------
 
-export default class ReportIssues {
+export class ReportIssues {
   private socket: MYIOClient | null = null
   private buffer: ReportContent[] = []
   private reported: Record<string, unknown> = {}
