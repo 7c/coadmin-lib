@@ -3,7 +3,6 @@ import { ReportIssues } from "./ReportIssues"
 import fs from 'fs'
 import { jest } from '@jest/globals'
 import os from 'os'
-
 const dbg = debug('_ReportIssues')
 dbg.enabled = dbg.enabled || typeof jest !== 'undefined'
 
@@ -29,7 +28,7 @@ afterAll(() => {
   (fs.existsSync as jest.Mock).mockRestore();
 });
 
-describe("ReportIssues 1", () => {
+describe("ReportIssues 2", () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -61,7 +60,7 @@ describe("ReportIssues 1", () => {
     expect(data.extra).toBeDefined()
     expect(data.libversion).toBeDefined()
     expect(data.t).toBeDefined()
-    // console.log(data)
+    console.log(data)
     // filename needs to end with '.coadmin_issue'
     const filename = (fs.writeFileSync as jest.Mock).mock.calls[0][0] as string
     expect(filename.endsWith('.coadmin_issue')).toBe(true)

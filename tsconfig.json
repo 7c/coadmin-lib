@@ -15,7 +15,6 @@
     "skipLibCheck": true,      
     "baseUrl": ".",
     "rootDir": "./src",
-  
     "outDir": "./dist",
     "paths": {
       "@root/*": ["./*"],
@@ -25,9 +24,8 @@
   },
   "exclude": [
     "**/*.test.ts",
-    "**/*.test.tsx",
-    "**/*.test.js",
-    "**/*.test.jsx",
+    "**/*.jest.ts",
+
     "dist/*"
   ]
 }
