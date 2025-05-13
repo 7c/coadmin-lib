@@ -1,5 +1,5 @@
 import debug from 'debug'
-import ReportIssues from "./ReportIssues"
+import { ReportIssues } from "./ReportIssues"
 import fs from 'fs'
 import { jest } from '@jest/globals'
 import os from 'os'
